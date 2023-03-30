@@ -4,9 +4,11 @@ import com.wallet.appn.component.entity.WalletEntity;
 import com.wallet.appn.component.model.WalletRequest;
 import com.wallet.appn.component.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+@Service
 public class EWalletService {
 
     @Autowired
