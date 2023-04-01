@@ -3,7 +3,7 @@ package com.wallet.appn.component.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = "account")
 public class WalletEntity {
 
     @Id
