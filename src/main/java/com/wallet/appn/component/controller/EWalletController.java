@@ -14,29 +14,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class EWalletController {
 
-//    EWalletService eWalletService;
-
     private static final Logger logger = LoggerFactory.getLogger(EWalletController.class);
 
     @Autowired
     EWalletService eWalletService;
-
-//    public EWalletController(EWalletService eWalletService){
-//        this.eWalletService = eWalletService;
-//    }
 
     @PostMapping(value = "/wallet/create")
     @Produces("application/json")
     public ResponseEntity<String> createWallet(@RequestBody WalletRequest walletRequest) throws Exception {
         try{
             String response = eWalletService.createWallet(walletRequest);
+            logger.info("EWalletController -> createWallet : " + response);
             if(response != null){
                 return new ResponseEntity<>(response, HttpStatus.CREATED);
             } else {
                 throw new Exception("Wallet not created !!");
             }
         } catch(Exception e){
-            throw new Exception("Exception occurred while creating new wallet !!");
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -45,14 +40,14 @@ public class EWalletController {
     public ResponseEntity<String> getBalance(@PathVariable("id") String id) throws Exception {
         try{
             String response = eWalletService.getWalletBalance(id);
-
+            logger.info("EWalletController -> getBalance : " + response);
             if (response != null){
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 throw new Exception("Balance not found for : " + id);
             }
         } catch(Exception e){
-            throw new Exception("Exception occurred while fetching wallet balance for : " + id);
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -61,14 +56,14 @@ public class EWalletController {
     public ResponseEntity<String> updateWallet(@PathVariable("id") String id, @PathVariable("amount") String amount) throws Exception {
         try{
             String response = eWalletService.updateWallet(id, amount);
-
+            logger.info("EWalletController -> updateWallet : " + response);
             if (response != null){
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 throw new Exception("Balance not updated for : " + id);
             }
         } catch(Exception e){
-            throw new Exception("Exception occurred while updating wallet balance for : " + id);
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -76,16 +71,15 @@ public class EWalletController {
     @Produces("application/json")
     public ResponseEntity<String> withdrawAmount(@PathVariable("id") String id, @PathVariable("amount") String amount) throws Exception {
         try{
-            String response = eWalletService.updateWallet(id, amount);
-
+            String response = eWalletService.withdrawAmount(id, amount);
+            logger.info("EWalletController -> withdrawAmount : " + response);
             if (response != null){
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 throw new Exception("Amount not withdrawn for : " + id);
             }
         } catch(Exception e){
-            throw new Exception("Exception occurred while withdrawing amount for : " + id);
+            throw new Exception(e.getMessage());
         }
     }
-
 }
