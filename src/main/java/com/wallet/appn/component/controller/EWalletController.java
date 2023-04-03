@@ -1,5 +1,6 @@
 package com.wallet.appn.component.controller;
 
+import com.wallet.appn.component.entity.WalletEntity;
 import com.wallet.appn.component.model.WalletRequest;
 import com.wallet.appn.component.service.EWalletService;
 import jakarta.ws.rs.Produces;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -77,6 +80,22 @@ public class EWalletController {
                 return new ResponseEntity<>(response, HttpStatus.OK);
             } else {
                 throw new Exception("Amount not withdrawn for : " + id);
+            }
+        } catch(Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/wallet/details")
+    @Produces("application/json")
+    public ResponseEntity<List<WalletEntity>> getAllWallets() throws Exception {
+        try{
+            List<WalletEntity> response = eWalletService.getAllWallets();
+            logger.info("EWalletController -> getAllWallets : " + response);
+            if (response != null){
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                throw new Exception("List of Wallets not found : " + response);
             }
         } catch(Exception e){
             throw new Exception(e.getMessage());

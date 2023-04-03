@@ -32,4 +32,12 @@ public class WalletRequest {
     public void setAmount(String amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString(){
+        return "[" +
+                "\n id : " + id +
+                "\n name : " + name +
+                "\n balance : " + amount + " ]";
+    }
 }

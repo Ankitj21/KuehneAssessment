@@ -1,6 +1,5 @@
 package com.wallet.appn.component.service;
 
-import com.wallet.appn.component.controller.EWalletController;
 import com.wallet.appn.component.entity.WalletEntity;
 import com.wallet.appn.component.model.WalletRequest;
 import com.wallet.appn.component.repository.WalletRepository;
@@ -10,19 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class EWalletService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EWalletController.class);
+    private static final Logger logger = LoggerFactory.getLogger(EWalletService.class);
     @Autowired
     WalletRepository walletRepository;
 
     @Transactional
     public String createWallet(WalletRequest walletRequest) {
-        if(Objects.nonNull(walletRequest)){
+        if (Objects.nonNull(walletRequest)) {
             WalletEntity walletEntity = new WalletEntity();
             walletEntity.setName(walletRequest.getName());
             walletEntity.setAmount(walletRequest.getAmount());
@@ -62,7 +62,7 @@ public class EWalletService {
         WalletEntity walletEntity = optionalEntity.get();
         String balance = walletEntity.getAmount();
 
-        if((Integer.valueOf(balance) - Integer.valueOf(amount)) >= 0){
+        if ((Integer.valueOf(balance) - Integer.valueOf(amount)) >= 0) {
             balance = String.valueOf(Integer.valueOf(balance) - Integer.valueOf(amount));
         } else {
             logger.info("Withdrawn amount requested is more than the account balance !!" + balance);
@@ -75,5 +75,9 @@ public class EWalletService {
         newEntity.setAmount(balance);
         walletRepository.save(newEntity);
         return balance;
+    }
+
+    public List<WalletEntity> getAllWallets() {
+        return walletRepository.findAll();
     }
 }
